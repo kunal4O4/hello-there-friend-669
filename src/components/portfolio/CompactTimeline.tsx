@@ -22,11 +22,35 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
       {/* Scrollable on small screens, full width on desktop */}
       <div className="px-2 md:px-0">
         <div className="relative min-w-[720px] md:min-w-0 px-4">
-          {/* Base line */}
-          <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-0.5 bg-primary/30" />
+          {/* Wavy line */}
+          <svg 
+            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 w-full" 
+            height="60" 
+            preserveAspectRatio="none"
+            style={{ overflow: 'visible' }}
+          >
+            <defs>
+              <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
+                <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              d={`M 0 30 ${Array.from({ length: 100 }, (_, i) => {
+                const x = i;
+                const y = 30 + Math.sin(i * 0.15) * 8;
+                return `L ${x} ${y}`;
+              }).join(' ')}`}
+              stroke="url(#waveGradient)"
+              strokeWidth="2"
+              fill="none"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
 
           {/* Dots row */}
-          <div className="flex items-center justify-between gap-6 md:gap-8 py-6 snap-x snap-mandatory">
+          <div className="flex items-center justify-between gap-6 md:gap-8 py-6 snap-x snap-mandatory" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
             {experiences.map((exp, idx) => (
               <HoverCard key={idx} openDelay={80} closeDelay={80}>
                 <HoverCardTrigger asChild>
