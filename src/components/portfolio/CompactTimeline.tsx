@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export interface Experience {
   role: string;
@@ -17,6 +19,17 @@ interface CompactTimelineProps {
 }
 
 const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  // Generate wave path
+  const generateWavePath = () => {
+    return `M 0 30 ${Array.from({ length: 100 }, (_, i) => {
+      const x = i;
+      const y = 30 + Math.sin(i * 0.15) * 8;
+      return `L ${x} ${y}`;
+    }).join(' ')}`;
+  };
+
   return (
     <div className={cn("w-full", className)}>
       {/* Scrollable on small screens, full width on desktop */}
@@ -35,18 +48,38 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
                 <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
                 <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
               </linearGradient>
+              <linearGradient id="animatedWaveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="1" />
+              </linearGradient>
             </defs>
+            {/* Base wave path */}
             <path
-              d={`M 0 30 ${Array.from({ length: 100 }, (_, i) => {
-                const x = i;
-                const y = 30 + Math.sin(i * 0.15) * 8;
-                return `L ${x} ${y}`;
-              }).join(' ')}`}
+              d={generateWavePath()}
               stroke="url(#waveGradient)"
               strokeWidth="2"
               fill="none"
               vectorEffect="non-scaling-stroke"
             />
+            {/* Animated wave path */}
+            {hoveredIndex !== null && (
+              <motion.path
+                d={generateWavePath()}
+                stroke="url(#animatedWaveGradient)"
+                strokeWidth="3"
+                fill="none"
+                vectorEffect="non-scaling-stroke"
+                initial={{ pathLength: 0 }}
+                animate={{ 
+                  pathLength: (hoveredIndex + 1) / experiences.length,
+                }}
+                transition={{ 
+                  duration: 0.6,
+                  ease: "easeInOut"
+                }}
+                strokeLinecap="round"
+              />
+            )}
           </svg>
 
           {/* Dots row */}
@@ -58,6 +91,8 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
                     type="button"
                     aria-label={`${exp.role} at ${exp.company}`}
                     className="relative group snap-center shrink-0 focus:outline-none"
+                    onMouseEnter={() => setHoveredIndex(idx)}
+                    onMouseLeave={() => setHoveredIndex(null)}
                   >
                     {/* Outer ring for focus/visibility */}
                     <span className="absolute inset-0 -m-2 rounded-full" />
