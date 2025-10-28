@@ -94,7 +94,7 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
                     onMouseEnter={() => setHoveredIndex(idx)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    {/* Animated wave ripples */}
+                    {/* Animated wave ripples - Always visible */}
                     <span className="absolute inset-0 -m-4">
                       <svg className="w-full h-full" viewBox="0 0 60 60">
                         {/* First ripple */}
@@ -105,13 +105,12 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
                           fill="none"
                           stroke="hsl(var(--primary))"
                           strokeWidth="1.5"
-                          initial={{ r: 10, opacity: 0.6 }}
                           animate={{ 
-                            r: hoveredIndex === idx ? 25 : 10,
-                            opacity: hoveredIndex === idx ? 0 : 0.6
+                            r: [10, 25],
+                            opacity: [0.6, 0]
                           }}
                           transition={{
-                            duration: 1.5,
+                            duration: hoveredIndex === idx ? 1 : 2,
                             repeat: Infinity,
                             ease: "easeOut"
                           }}
@@ -124,16 +123,15 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
                           fill="none"
                           stroke="hsl(var(--primary))"
                           strokeWidth="1.5"
-                          initial={{ r: 10, opacity: 0.4 }}
                           animate={{ 
-                            r: hoveredIndex === idx ? 25 : 10,
-                            opacity: hoveredIndex === idx ? 0 : 0.4
+                            r: [10, 25],
+                            opacity: [0.4, 0]
                           }}
                           transition={{
-                            duration: 1.5,
+                            duration: hoveredIndex === idx ? 1 : 2,
                             repeat: Infinity,
                             ease: "easeOut",
-                            delay: 0.5
+                            delay: hoveredIndex === idx ? 0.3 : 0.66
                           }}
                         />
                         {/* Third ripple */}
@@ -144,16 +142,15 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
                           fill="none"
                           stroke="hsl(var(--primary))"
                           strokeWidth="1.5"
-                          initial={{ r: 10, opacity: 0.2 }}
                           animate={{ 
-                            r: hoveredIndex === idx ? 25 : 10,
-                            opacity: hoveredIndex === idx ? 0 : 0.2
+                            r: [10, 25],
+                            opacity: [0.3, 0]
                           }}
                           transition={{
-                            duration: 1.5,
+                            duration: hoveredIndex === idx ? 1 : 2,
                             repeat: Infinity,
                             ease: "easeOut",
-                            delay: 1
+                            delay: hoveredIndex === idx ? 0.6 : 1.33
                           }}
                         />
                       </svg>
