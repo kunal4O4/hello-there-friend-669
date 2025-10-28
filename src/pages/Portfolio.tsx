@@ -237,13 +237,6 @@ const Portfolio = () => {
             </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-          <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
-            <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse" />
-          </div>
-        </div>
       </section>
 
       {/* About Section */}

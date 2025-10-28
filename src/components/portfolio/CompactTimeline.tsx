@@ -20,7 +20,7 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
   return (
     <div className={cn("w-full", className)}>
       {/* Scrollable on small screens, full width on desktop */}
-      <div className="overflow-x-auto px-2 md:px-0">
+      <div className="px-2 md:px-0">
         <div className="relative min-w-[720px] md:min-w-0 px-4">
           {/* Base line */}
           <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-0.5 bg-primary/30" />
