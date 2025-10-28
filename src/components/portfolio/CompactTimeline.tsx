@@ -94,10 +94,80 @@ const CompactTimeline = ({ experiences, className }: CompactTimelineProps) => {
                     onMouseEnter={() => setHoveredIndex(idx)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
+                    {/* Animated wave ripples */}
+                    <span className="absolute inset-0 -m-4">
+                      <svg className="w-full h-full" viewBox="0 0 60 60">
+                        {/* First ripple */}
+                        <motion.circle
+                          cx="30"
+                          cy="30"
+                          r="10"
+                          fill="none"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth="1.5"
+                          initial={{ r: 10, opacity: 0.6 }}
+                          animate={{ 
+                            r: hoveredIndex === idx ? 25 : 10,
+                            opacity: hoveredIndex === idx ? 0 : 0.6
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeOut"
+                          }}
+                        />
+                        {/* Second ripple */}
+                        <motion.circle
+                          cx="30"
+                          cy="30"
+                          r="10"
+                          fill="none"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth="1.5"
+                          initial={{ r: 10, opacity: 0.4 }}
+                          animate={{ 
+                            r: hoveredIndex === idx ? 25 : 10,
+                            opacity: hoveredIndex === idx ? 0 : 0.4
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeOut",
+                            delay: 0.5
+                          }}
+                        />
+                        {/* Third ripple */}
+                        <motion.circle
+                          cx="30"
+                          cy="30"
+                          r="10"
+                          fill="none"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth="1.5"
+                          initial={{ r: 10, opacity: 0.2 }}
+                          animate={{ 
+                            r: hoveredIndex === idx ? 25 : 10,
+                            opacity: hoveredIndex === idx ? 0 : 0.2
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeOut",
+                            delay: 1
+                          }}
+                        />
+                      </svg>
+                    </span>
                     {/* Outer ring for focus/visibility */}
                     <span className="absolute inset-0 -m-2 rounded-full" />
                     {/* Dot */}
-                    <span className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-accent ring-4 ring-background shadow hover:scale-110 transition-transform duration-200 block" />
+                    <motion.span 
+                      className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-accent ring-4 ring-background shadow block relative z-10"
+                      animate={{
+                        scale: hoveredIndex === idx ? 1.2 : 1
+                      }}
+                      transition={{ duration: 0.3 }}
+                    />
                     {/* Period label */}
                     <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">
                       {exp.period}
